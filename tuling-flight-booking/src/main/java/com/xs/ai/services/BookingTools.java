@@ -41,6 +41,7 @@ public class BookingTools {
 	public Function<BookingDetailsRequest, BookingDetails> getBookingDetails() {
 		return request -> {
 			try {
+				logger.info("调用了《获取机票预定详细信息回调》方法。。。");
 				return flightBookingService.getBookingDetails(request.bookingNumber(), request.name());
 			}
 			catch (Exception e) {

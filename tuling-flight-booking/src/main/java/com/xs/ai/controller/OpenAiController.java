@@ -32,8 +32,16 @@ public class OpenAiController {
 
     private final ChatClient chatClient;
 
+    /**
+     * 通过构造方法注入需要的参数
+     * @param chatClientBuilder 聊天客户端构造器，自动配置会帮我们创建构造器，通过构造器获得聊天客户端
+     * @param vectorStore   向量数据库，用于搜索增强功能(RAG)，先查询向量数据库，
+     *                      然后将结果作为用户输入的上下文一起发送给AI大模型，可以用Redis、ElasticSearch等
+     * @param chatMemory    对话记忆功能，将聊天记录保存起来，就可以开启对话记忆
+     */
     public OpenAiController(ChatClient.Builder chatClientBuilder, VectorStore vectorStore, ChatMemory chatMemory) {
         this.chatClient = chatClientBuilder
+                // 预设系统角色
                 .defaultSystem("""
 					    您是“Tuling”航空公司的客户聊天支持代理。请以友好、乐于助人且愉快的方式来回复。
                         您正在通过在线聊天系统与客户互动。 
@@ -44,10 +52,12 @@ public class OpenAiController {
 					   请讲中文。
 					   今天的日期是 {current_date}.
 					""")
+                // 加入一些拦截器，例如对话存储拦截器、问答拦截器、自定义日志拦截器
                 .defaultAdvisors(
                         new PromptChatMemoryAdvisor(chatMemory),
 						new QuestionAnswerAdvisor(vectorStore, SearchRequest.query("预定航班")), // RAG
                         new LoggingAdvisor())
+                // 设置回调函数
 				.defaultFunctions("getBookingDetails", "changeBooking", "cancelBooking") // FUNCTION CALLING
 				.build();
 
@@ -55,6 +65,11 @@ public class OpenAiController {
 	}
 
 
+    /**
+     * 流式响应
+     * @param message
+     * @return
+     */
     @CrossOrigin
     @GetMapping(value = "/ai/generateStreamAsString", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> generateStreamAsString(@RequestParam(value = "message", defaultValue = "讲个笑话") String message) {
