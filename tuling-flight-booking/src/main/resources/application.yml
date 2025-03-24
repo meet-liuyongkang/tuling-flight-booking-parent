@@ -1,0 +1,33 @@
+#xushu:
+#  # 官方（自行配置）
+#  openai:
+#    key: ${OPENAI_KEY}
+#    url: ${OPENAI_URL}
+#  # 中转1
+#  aicore:
+#    key: ${OPEN_AI_KEY}
+#    url: ${OPEN_AI_URL}
+#  # 中转2  神经网络  算法模型，精通各个目标检测算法和熟悉神经网络基本架构
+#  gaochao:
+#    key: ${OPEN_AI_KEY_GAOCHAO}
+#    url: ${OPEN_AI_URL_GAOCHAO}
+
+
+
+#spring:
+#  ai:
+#    openai:
+#      api-key:
+#      base-url: https://api.deepseek.com
+#      chat:
+#        options:
+#          model: deepseek-chat
+
+
+spring:
+  ai:
+    ollama:
+      embedding:
+        model: shaw/dmeta-embedding-zh
+      chat:
+        model: deepseek-r1:8b
