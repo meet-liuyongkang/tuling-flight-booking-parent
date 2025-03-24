@@ -24,10 +24,10 @@
 #          model: deepseek-chat
 
 
-spring:
-  ai:
-    ollama:
-      embedding:
-        model: shaw/dmeta-embedding-zh
-      chat:
-        model: deepseek-r1:8b
+#spring:
+#  ai:
+#    ollama:
+#      embedding:
+#        model: shaw/dmeta-embedding-zh
+#      chat:
+#        model: deepseek-r1:8b

@@ -73,9 +73,6 @@ public class OpenAiController {
 
     }
 
-
-    @Autowired
-    ChatClient.Builder chatClientBuilder;
     @CrossOrigin
     @GetMapping(value = "/ai/chat")
     public String chat(@RequestParam(value = "message", defaultValue = "讲个笑话") String message) {
